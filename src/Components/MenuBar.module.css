@@ -1,0 +1,59 @@
+/* src/components/MenuBar.module.css */
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: black;
+    padding: 1rem 2rem;
+  }
+  
+  .logo {
+    font-size: 2rem;
+    
+  }
+  
+  .logo a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .logo a:hover {
+    text-decoration: underline;
+    font-style: italic;
+    color: #f0f0f0;
+  }
+  
+  .menu {
+    display: flex;
+    list-style: none;
+  }
+  
+  .menu li {
+    margin: 0 1rem;
+  }
+  
+  .menu li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+  }
+  
+  .menu li a:hover {
+    text-decoration: underline;
+    color: #f0f0f0;
+  }
+  .hamburgerMenu {
+    display: none; /* Hide hamburger menu by default */
+  }
+  /* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .menu {
+      display: none; /* Hide regular menu on mobile */
+    }
+  
+    .hamburgerMenu {
+      display: block; /* Show hamburger menu on mobile */
+    }
+  }
+  
