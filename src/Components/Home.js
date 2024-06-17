@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { ReactTyped } from 'react-typed'; // Correct import
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import styles from './Home.module.css';
+import { Helmet } from 'react-helmet';
 
 function Home() {
   const introRef = useRef(null);
@@ -30,6 +31,10 @@ function Home() {
 
   return (
     <div className={styles.home}>
+       <Helmet>
+        <title>Faraz Khan | Home</title>
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+      </Helmet>
       <div
         ref={introRef}
         className={`${styles.intro} ${introVisible ? (isScrollingDown ? styles.fadeOut : styles.fadeIn) : ''}`}

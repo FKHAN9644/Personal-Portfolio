@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import styles from './Projects.module.css';
-
+import { Helmet } from 'react-helmet';
 function Projects() {
   const [repos, setRepos] = useState([]);
   const projectsRef = useRef(null);
@@ -20,6 +20,10 @@ function Projects() {
 
   return (
     <div className={`${styles.projects} ${projectsVisible ? styles.fadeIn : ''}`} ref={projectsRef}>
+      <Helmet>
+        <title>Faraz Khan | Projects</title>
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+      </Helmet>
       <h2>Projects</h2>
 
       <div className={styles.project}>

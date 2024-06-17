@@ -1,13 +1,17 @@
 import React, { useRef } from 'react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import styles from './About.module.css';
-
+import { Helmet } from 'react-helmet';
 function About() {
   const aboutRef = useRef(null);
   const aboutVisible = useIntersectionObserver(aboutRef, { threshold: 0.1 });
 
   return (
     <div className={styles.about} ref={aboutRef}>
+      <Helmet>
+        <title>Faraz Khan | About Me</title>
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+      </Helmet>
       <div className={`${styles.content} ${aboutVisible ? styles.fadeIn : ''}`}>
         <h2>About Me</h2>
         <p>

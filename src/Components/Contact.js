@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import emailjs from 'emailjs-com';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import styles from './Contact.module.css';
-
+import { Helmet } from 'react-helmet';
 function Contact() {
   const contactRef = useRef(null);
   const contactVisible = useIntersectionObserver(contactRef, { threshold: 0.1 });
@@ -24,6 +24,10 @@ function Contact() {
 
   return (
     <div className={`${styles.contact} ${contactVisible ? styles.fadeIn : ''}`} ref={contactRef}>
+      <Helmet>
+        <title>Faraz Khan | Contact</title>
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+      </Helmet>
       <h2>Contact Me</h2>
       {status === 'SUCCESS' && <p className={styles.success}>Your message has been sent successfully!</p>}
       {status === 'FAILED' && <p className={styles.error}>Failed to send your message. Please try again later.</p>}
