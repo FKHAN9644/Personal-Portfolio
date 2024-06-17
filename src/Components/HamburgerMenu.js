@@ -17,6 +17,8 @@ function HamburgerMenu() {
         <div className={isOpen ? `${styles.bar} ${styles.bar3}` : styles.bar}></div>
       </div>
       <ul className={isOpen ? `${styles.menu} ${styles.menuOpen}` : styles.menu}>
+        <li className={styles.closeIcon} onClick={toggleMenu}>X</li>
+        <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
         <li><Link to="/about" onClick={toggleMenu}>About Me</Link></li>
         <li><Link to="/projects" onClick={toggleMenu}>Projects</Link></li>
         <li><Link to="/resume" onClick={toggleMenu}>Resume</Link></li>

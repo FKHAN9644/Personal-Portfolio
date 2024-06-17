@@ -1,0 +1,87 @@
+/* src/components/About.module.css */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.about {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: #f5f5f5;
+  text-align: center; /* Center-align text */
+}
+
+.content {
+  max-width: 800px;
+  opacity: 0; /* Start hidden */
+  transition: opacity 1s ease-in-out; /* Smooth transition */
+}
+
+.fadeIn {
+  opacity: 1;
+  animation: fadeIn 1s forwards;
+}
+
+h2 {
+  color: #333;
+  margin-top: 2rem; /* Add spacing between sections */
+  font-size: 3rem; /* Increase font size */
+}
+
+h3 {
+  color: #333;
+  margin-top: 2rem; /* Add spacing between sections */
+  font-size: 2.5rem; /* Increase font size */
+}
+
+p {
+  font-size: 1.5rem; /* Increase font size */
+  color: #666;
+  margin-bottom: 1.5rem; /* Increase spacing between paragraphs */
+}
+
+ul {
+  font-size: 1.5rem; /* Increase font size */
+  color: #666;
+  margin-bottom: 1.5rem; /* Increase spacing between lists */
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  text-align: left; /* Align list items to the left */
+  display: inline-block; /* Ensure skills list aligns properly */
+}
+
+.skillsList {
+  text-align: left;
+  margin: 0 auto; /* Center-align the list container */
+}
+
+.education {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem; /* Add spacing above the education section */
+  margin-right: 6rem ;
+}
+
+.logo {
+  width: 100px; /* Increase size */
+  height: auto;
+  margin-right: 1.5rem;
+}
+
+.educationDetails {
+  text-align: center;
+}
+
+.educationDetails p {
+  margin: 0; /* Remove margin for tighter spacing */
+  line-height: 1.5; /* Adjust line height for better readability */
+}
