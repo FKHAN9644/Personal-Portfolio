@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import styles from './About.module.css';
 import { Helmet } from 'react-helmet';
+import styles from './About.module.css';
+
 function About() {
   const aboutRef = useRef(null);
   const aboutVisible = useIntersectionObserver(aboutRef, { threshold: 0.1 });
@@ -48,6 +49,16 @@ function About() {
             <p>Minor in Business</p>
             <p>Class of 2024</p>
           </div>
+        </div>
+
+        <h3>Connect with Me</h3>
+        <div className={styles.connect}>
+          <a href="https://www.linkedin.com/in/faraz-khan-5b821b1b1/" target="_blank" rel="noopener noreferrer">
+            <img src="/linkedin-logo.png" alt="LinkedIn" className={styles.socialLogo} />
+          </a>
+          <a href="https://github.com/FRKHAN9644" target="_blank" rel="noopener noreferrer">
+            <img src="/github-logo.png" alt="GitHub" className={styles.socialLogo} />
+          </a>
         </div>
       </div>
     </div>
