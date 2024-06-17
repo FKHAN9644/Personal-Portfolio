@@ -56,7 +56,7 @@ function About() {
           <a href="https://www.linkedin.com/in/faraz-khan-5b821b1b1/" target="_blank" rel="noopener noreferrer">
             <img src="/linkedin-logo.png" alt="LinkedIn" className={styles.socialLogo} />
           </a>
-          <a href="https://github.com/FRKHAN9644" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/FKHAN9644" target="_blank" rel="noopener noreferrer">
             <img src="/github-logo.png" alt="GitHub" className={styles.socialLogo} />
           </a>
         </div>
