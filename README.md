@@ -26,9 +26,9 @@ This is a personal portfolio website built with React. It includes sections for 
 - Contact page with a form to reach out to me.
 - Responsive design with a hamburger menu for mobile devices.
 
-## Installation
-
-To get a local copy up and running, follow these steps:
+## Design
+- The favicon and art assets were designed by me personally. 
+- Logos are of their respected rights holders (LinkedIN and Github are both trademarks and brands owned by Microsoft Corp, The Ohio State Seal is Owned by The Ohio State University) 
 
 ### Prerequisites
 
