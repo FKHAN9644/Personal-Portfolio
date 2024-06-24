@@ -11,7 +11,11 @@ function Contact() {
   const sendEmail = (e) => {
     e.preventDefault();
 
-    emailjs.sendForm('service_3x9r4zp', 'template_lz7tbjh', e.target, 'J_4jG-RHXwVe-9kPC')
+    emailjs.sendForm(
+      process.env.REACT_APP_EMAILJS_SERVICE_ID,
+      process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+      e.target,
+      process.env.REACT_APP_EMAILJS_USER_ID)
       .then((result) => {
         console.log(result.text);
         setStatus('SUCCESS');
