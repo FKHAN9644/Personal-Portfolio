@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Correa Chat</title>
+  <link rel="stylesheet" href="elements/dark-switch.css" />
+  <style>
+    :root {
+      --user-background: var(--user-background-light, #ffffff);
+      --user-background-light: #ffffff;
+      --user-background-dark: #000000;
+      --chat-bg: #ffffff;
+      --assistant-color: #000000;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      padding: 0;
+      font-family: 'Futura', sans-serif;
+      background-color: var(--user-background);
+      color: #000;
+      margin: 0;
+      transition: background-color 1s ease, color 1s ease, font-family 1s ease;
+    }
+
+    .title {
+      margin: 1rem;
+      font-size: 2rem;
+      font-weight: bold;
+      position: static;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 1ch;
+      animation: blink 1s step-end infinite;
+      background-color: currentColor;
+      margin-left: 0.25rem;
+    }
+
+    @keyframes blink {
+      50% {
+        background-color: transparent;
+      }
+    }
+
+    .messages-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      max-width: 85%;
+      word-wrap: break-word;
+      line-height: 1.4;
+      font-size: 1rem;
+      display: block;
+    }
+
+    .user {
+      align-self: flex-end;
+      background-color: #e0e0e0;
+      color: #000;
+      font-weight: bold;
+      margin-left: auto;
+      border-top-right-radius: 0;
+    }
+
+    .assistant {
+      background-color: #e0e0e0;
+      color: var(--assistant-color);
+      font-weight: bold;
+      margin-right: auto;
+      border-top-left-radius: 0;
+    }
+
+    .input-container {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      border-top: 1px solid #ccc;
+      background-color: var(--chat-bg);
+    }
+
+    #prompt {
+      flex: 1;
+      padding: 0.75rem;
+      margin-right: 0.5rem;
+      border-radius: 8px;
+      resize: none;
+      font-family: inherit;
+      border: 1px solid #ccc;
+      font-family: inherit;
+    }
+
+    #send-btn {
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      border: none;
+      background-color: var(--assistant-color);
+      color: white;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background-color 0.6s ease;
+    }
+
+    #send-btn:hover {
+      background-color: #ffffff;
+      color: black;
+    }
+
+    body.dark {
+      --assistant-color: #000000;
+      --chat-bg: #0d0d0d;
+      --user-background: var(--user-background-dark);
+      background-color: var(--user-background);
+      color: #000000;
+    }
+
+    body.dark .user {
+      color: #ffffff;
+    }
+
+    body.dark .assistant {
+      background-color: #3a3a3a;
+      color: var(--assistant-color);
+    }
+
+    body.dark .messages-container,
+    body.dark .title,
+    body.dark .message {
+      color: #ffffff;
+    }
+
+    body.dark #prompt {
+      background-color: #181818;
+      color: white;
+      border: 1px solid #555;
+    }
+    .switch {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--switch-width, 150px);
+      height: var(--switch-height, 65px);
+      border-radius: var(--switch-round, 50px);
+      background: var(--switch-bg, linear-gradient(to bottom, #ffffff, #a0a0a0));
+      cursor: pointer;
+      z-index: 10;
+      overflow: hidden;
+    }
+
+    .switch input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .sunmoon, .darkside, .border, .clouds, .stars {
+      position: absolute;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <label class="switch">
+    <input type="checkbox" id="switch" />
+    <div class="sunmoon"></div>
+    <div class="border"></div>
+    <div class="clouds">
+      <img src="elements/cloud_1.svg" class="cloud cloud-1" />
+      <img src="elements/cloud_2.svg" class="cloud cloud-2" />
+      <img src="elements/cloud_3.svg" class="cloud cloud-3" />
+      <img src="elements/cloud_4.svg" class="cloud cloud-4" />
+      <img src="elements/stars.svg" class="stars" />
+    </div>
+  </label>
+  <header class="title">Talk to Correa<span class="cursor"></span></header>
+  <div id="messages" class="messages-container"></div>
+  <div class="input-container">
+    <textarea id="prompt" rows="1" placeholder="Type your message..."></textarea>
+    <button id="send-btn">Send</button>
+  </div>
+
+  <script>
+    function applyUserPreferences(responseText) {
+      // Font change
+      const fontMatch = responseText.match(/(?:font|text) to ['"]?([\w\s]+)['"]?/i);
+      if (fontMatch) {
+        const quirky = fontMatch[1].trim();
+        document.body.style.transition = 'font-family 1s ease';
+        document.body.style.fontFamily = `"${quirky}", sans-serif`;
+        document.body.animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(2deg)' }, { transform: 'rotate(-2deg)' }, { transform: 'rotate(0deg)' }], {
+          duration: 300,
+          iterations: 1
+        });
+      }
+    }
+
+    function setBackgroundColorFromUser(inputText) {
+  const colorRegex = /(set|change)\s+(the\s+)?background\s+(color\s+)?to\s+([\w\s#()%,.-]+)/i;
+  const match = inputText.match(colorRegex);
+
+  if (match) {
+    const color = match[4].trim().toLowerCase();
+    const testEl = document.createElement('div');
+    document.body.appendChild(testEl);
+    testEl.style.backgroundColor = color;
+    const isValid = !!testEl.style.backgroundColor;
+    testEl.remove();
+
+    if (isValid) {
+      const isDark = document.body.classList.contains('dark');
+      const targetVar = isDark ? '--user-background-dark' : '--user-background-light';
+      document.documentElement.style.setProperty(targetVar, color);
+
+      // force update to --user-background
+      document.documentElement.style.setProperty('--user-background',
+        getComputedStyle(document.documentElement).getPropertyValue(targetVar).trim()
+      );
+
+      console.log(`✅ ${targetVar} updated to: ${color}`);
+    } else {
+      console.warn(`❌ "${color}" is not a valid CSS color.`);
+    }
+  }
+}
+
+    document.getElementById('send-btn').addEventListener('click', async () => {
+      const promptInput = document.getElementById('prompt');
+      const message = promptInput.value.trim();
+      if (!message) return;
+
+      const messagesDiv = document.getElementById('messages');
+      messagesDiv.innerHTML += `<div class="message user">${message}</div>`;
+      promptInput.value = '';
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: message })
+        });
+        const data = await res.json();
+        const responseContainer = document.createElement('div');
+        responseContainer.className = 'message assistant';
+        // responseContainer.innerHTML = `<span class="assistant">Correa:</span> `;
+        messagesDiv.appendChild(responseContainer);
+        typeResponse(responseContainer, data.reply);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      } catch (err) {
+        messagesDiv.innerHTML += `<div class="message"><span class="assistant">Correa:</span> Error reaching backend.</div>`;
+      }
+    });
+
+    function typeResponse(container, text, delay = 30) {
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i < text.length) {
+          container.innerHTML += text.charAt(i);
+          i++;
+          const messagesDiv = document.getElementById('messages');
+          messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        } else {
+          clearInterval(interval);
+          applyUserPreferences(text);
+          setBackgroundColorFromUser(text);
+        }
+      }, delay);
+    }
+
+    document.getElementById('prompt').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        document.getElementById('send-btn').click();
+      }
+    });
+
+    const toggle = document.getElementById('switch');
+    const prefersDark = localStorage.getItem('theme') === 'dark';
+
+    if (prefersDark) {
+      document.body.classList.add('dark');
+      toggle.checked = true;
+    }
+
+    toggle.addEventListener('change', () => {
+      if (toggle.checked) {
+        document.body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  </script>
+</body>
+</html>

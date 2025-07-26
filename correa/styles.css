@@ -1,0 +1,344 @@
+:root {
+  --font-family: 'Futura', 'futura-pt', sans-serif;
+  --user-background: #f5f5f5;
+  --chat-bg: white;
+  --assistant-color: #ffffff;
+  --switch-width: 150px;
+  --switch-height: 65px;
+  --switch-round: 50px;
+  --sunmoon-size: 55px;
+  --switch-padding-x: 5px;
+  --border-width: 2px;
+  --switch-bg: linear-gradient(to bottom, #000000, #ffffff);
+  --switch-dark-bg: linear-gradient(to top, #2b3347, #181d27);
+  --border-gradient: linear-gradient(to bottom, #a2d1fd, #cde7ff);
+  --border-dark-gradient: linear-gradient(to bottom, #000000, #6c7384);
+  --transition: all 0.4s ease-in-out;
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: 300;
+  font-style: normal;
+  background-color: var(--user-background, #f5f5f5);
+  margin: 0;
+  padding: 2rem;
+  transition: background-color 1s ease, font-family 1s ease;
+}
+
+#chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+.message {
+    margin: 0.25rem 0;
+    padding: 0.75rem 1rem;
+    border-radius: 1.25rem;
+    max-width: 70%;
+    word-wrap: break-word;
+    font-size: 1rem;
+    line-height: 1.5;
+    display: inline-block;
+    clear: both;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    background-color: transparent;
+}
+  
+.user {
+    align-self: flex-end;
+    background-color: #ababab;
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 0;
+  }
+  
+.assistant {
+    align-self: flex-start;
+    background-color: #000000;
+    color: white;
+    margin-right: auto;
+    border-bottom-left-radius: 0;
+  }
+
+#input-area {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  background-color: #1a1a1a;
+  padding: 0.5rem;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+
+#prompt {
+  flex: 1;
+  margin: 0;
+  border-radius: 4px 0 0 4px;
+  border-right: none;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  font-family: var(--font-family);
+  background: #f9f9f9;
+  box-shadow: none;
+}
+
+#send-btn {
+  margin: 0;
+  border-radius: 0 4px 4px 0;
+  border-left: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  background-color: var(--assistant-color);
+  color: white;
+  cursor: pointer;
+  font-family: var(--font-family);
+  box-shadow: none;
+  transition: background-color 0.6s ease;
+}
+
+.title {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 1.75rem;
+  font-weight: 500;
+  font-family: var(--font-family);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.cursor {
+  width: 8px;
+  height: 1.5rem;
+  background-color: currentColor;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+input, button, textarea {
+  border-radius: 0;
+  background: #f9f9f9;
+  box-shadow: none;
+  border: 1px solid #ccc;
+  font-family: var(--font-family);
+}
+
+#send-btn:hover {
+  filter: brightness(1.1);
+}
+
+
+/* Dark mode */
+body.dark {
+  --assistant-color: #000000;
+  --chat-bg: #0d0d0d;
+  --user-background: var(--user-background-dark, #000000);
+  background-color: var(--user-background);
+  color: #ffffff;
+  transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+body.dark .user {
+  background-color: #ffffff;
+  color: white;
+}
+
+body.dark .assistant {
+  background-color: #ffffff;
+  color: white;
+}
+
+body.dark #prompt {
+  background-color: #1a1a1a;
+  color: white;
+  border: 1px solid #555;
+  transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+body.dark #send-btn {
+  background-color: var(--assistant-color);
+}
+
+body.dark #send-btn:hover {
+  background-color: #ffffff;
+}
+
+body.dark #input-area {
+  background-color: #000;
+}
+* {
+  transition: background-color 0.6s ease, color 0.6s ease, font-family 0.6s ease;
+}
+
+.switch {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--switch-width);
+    height: var(--switch-height);
+    border-radius: var(--switch-round);
+    cursor: pointer;
+    transition: var(--transition);
+    background: var(--switch-bg);
+}
+
+.switch::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--switch-round);
+    opacity: 0;
+    background: var(--switch-dark-bg);
+    transition: var(--transition);
+}
+
+body.dark .switch::before {
+    opacity: 1;
+}
+
+.switch .border {
+    position: absolute;
+    top: calc(var(--border-width) * -1);
+    left: calc(var(--border-width) * -1);
+    width: calc(100% + var(--border-width) * 2);
+    height: calc(100% + var(--border-width) * 2);
+    border-radius: var(--switch-round);
+    background: var(--border-gradient);
+    z-index: -1;
+    transition: var(--transition);
+}
+
+.switch .border::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--switch-round);
+    background: var(--border-dark-gradient);
+    opacity: 0;
+    transition: var(--transition);
+}
+
+body.dark .switch .border::after {
+    opacity: 1;
+}
+
+.switch input {
+    display: none;
+}
+
+.sunmoon {
+    position: absolute;
+    width: var(--sunmoon-size);
+    height: var(--sunmoon-size);
+    border-radius: 50%;
+    transition: var(--transition);
+    left: var(--switch-padding-x);
+    z-index: 1;
+    background-color: #FFC187;
+    box-shadow: 0px 0px 11.7px 0px #FFC187, 0px 0px 20px 0px #ffc18768, -2px -2px 5px 0px #ffab5c inset;
+}
+
+body.dark .sunmoon {
+    left: calc(100% - var(--sunmoon-size) - var(--switch-padding-x));
+    background-color: #dee5f3;
+    box-shadow: 0px 0px 51.7px 0px #dee5f3;
+}
+
+.darkside {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 75%;
+    height: 75%;
+    border-radius: 50%;
+    background-color: #FFC187;
+    transition: var(--transition);
+}
+
+body.dark .darkside {
+    background-color: #565c6b;
+}
+
+.clouds {
+    border-radius: var(--switch-round);
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.cloud {
+    position: absolute;
+    width: 60%;
+    transition: var(--transition);
+}
+
+.cloud-1 {
+    bottom: -55%;
+    left: 0;
+}
+
+.cloud-2 {
+    bottom: -45%;
+    left: 25px;
+}
+
+.cloud-3 {
+    bottom: -40%;
+    right: 0px;
+}
+
+.cloud-4 {
+    bottom: -16%;
+    right: -25px;
+}
+
+
+body.dark .cloud-1 {
+    bottom: -35%;
+    left: -110px;
+}
+
+body.dark .cloud-2 {
+    bottom: -15%;
+    left: -110px;
+    transition: var(--transition);
+}
+
+body.dark .cloud-3 {
+    bottom: -15%;
+    right: -110px;
+}
+
+body.dark .cloud-4 {
+    bottom: -5%;
+    right: -110px;
+    transition: var(--transition);
+}
+
+.stars {
+    position: absolute;
+    top: 150%;
+    left: 0;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: var(--transition);
+}
+
+body.dark .stars {
+    top: 50%;
+}
